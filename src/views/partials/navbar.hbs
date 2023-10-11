@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  
+  {{!-- <img src="/img/profiles/{{user.usuario}}.jpg" class="avatar" alt="avatar"> --}}
+
+  <div class="container">
+    <a class="navbar-brand" href="/">ELBINGO</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+   <button class="boton item" @click="pausar();verOpciones=true">OPCIONES</button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+       
+          <a class="nav-link" href="/bingo" tabindex="-1" aria-disabled="true">BINGO</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/carton" tabindex="-1" aria-disabled="true">CARTON</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

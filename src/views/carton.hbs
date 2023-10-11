@@ -1,0 +1,108 @@
+<!-- BODY -->
+<div id="app">
+    <div class="contenedor">
+        <button v-if="!carton" class="pedirCarton" v-on:click="pido">PedirCarton</button>
+        <div id="carton"></div>
+        <div id="bolas"></div>
+        {{!-- <div id="messages"></div> --}}
+    </div>
+    <button v-if="!lineaCantada && bolasSacadas.length>4" v-on:click="pedirLinea">LINEA</button>
+    <button v-if="lineaCantada && bolasSacadas.length>14" v-on:click="pedirBingo">BINGO</button>
+</div>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            carton: "",
+            bolasSacadas: [],
+            socketid: "",
+            lineaCantada: false,
+            bingoCantado: false,
+        },
+        mounted: function () {
+
+            var carton = document.getElementById("carton");
+            var bolas = document.getElementById("bolas");
+
+            socket.on('connect', () => {
+                this.socketid = socket.id;
+                console.log(socket.id);
+                document.getElementById("socketid").innerHTML= socket.id;
+                this.pido();
+            });
+
+            socket.on("bola2", data => {
+                var bola = data.bolas[data.length - 1];
+                console.log("Ha salido la bola: " + bola);
+                this.lineaCantada = data.lineaCantada;
+                this.bingoCantado = data.bingoCantado;
+
+
+                for (var j = 0; j < this.carton.numeros.length; j++) {
+                    for (var i = 0; i < this.carton.numeros[j].length; i++) {
+                        if (this.haSalido(this.carton.numeros[j][i]))
+                            document.getElementsByClassName("n" + this.carton.numeros[j][i])[0].classList.add('tachado');
+                    }
+                }
+
+                this.bolasSacadas = data.bolas;
+                bolas.innerHTML = data.bolas;
+
+            });
+            socket.on("cartonEnviado", data => {
+                this.carton = data;
+                for (var j = 0; j < data.numeros.length; j++) {
+                    this.completarConCeros(this.carton.numeros[j]);
+                }
+                console.log("referencia: " + this.carton.referencia);
+                console.log(this.carton.numeros);
+                var txt = "<div class='cabeceraCarton'> Carton nº: " + this.carton.referencia + "</div>";
+                for (var i = 0; i < 3; i++) {
+                    txt += this.carton.numeros[i].map(item => {
+                        if (item != 0)
+                            return "<div class='n" + item + "'>" + item + "</div>";
+                        else
+                            return "<div>  <img src='/img/loto_icon.svg' alt=''> </div>";
+                    }).join('');
+                }
+                carton.innerHTML = txt;
+            });
+
+            socket.on("lineaCantada", data => {
+                this.lineaCantada = data;
+            });
+            socket.on("bingoCantado", data => {
+                this.bingoCantado = data;
+            });
+        },
+        computed: {},
+        methods: {
+            pido: function () {
+                console.log("pido carton con socket.id: " + socket.id);
+                socket.emit('cartonPedido', socket.id);
+            },
+            completarConCeros: function (linea) {
+                for (var i = 0; i < 9; i++) {
+                    if (!(linea[i] >= (10 * i) && linea[i] <= (10 * i) + 9)) {
+                        if (linea.length < 9)
+                            linea.splice(i, 0, 0);
+                    }
+                }
+            },
+            pedirLinea: function () {
+                socket.emit('lineaSolicitada', this.carton.referencia);
+            }, pedirBingo() {
+                socket.emit('bingoSolicitado', this.carton.referencia);
+            },
+            haSalido: function (num) {
+                for (var i = 0; i < this.bolasSacadas.length; i++) {
+                    if (this.bolasSacadas[i] == num) {
+                        return true;
+                    }
+                }
+                return false;
+            },
+
+        },
+    });
+</script>
