@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const exphbs = require('express-handlebars'); //Para usar plantillas
 const path = require('path');               //Para manejar directorios, basicamente unirlos 
-
+require('dotenv').config()
 
 
 //Initialization
@@ -41,7 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Starting
 var server = app.listen(app.get('port'), () => {
-  console.log("Running on http://localhost:3000", app.get('port'));
+  console.log("Running on http://localhost:"+ app.get('port'));
 })
 
 
