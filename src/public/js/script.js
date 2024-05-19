@@ -1,6 +1,6 @@
 //var socket = io.connect("http://localhost:4000", { forceNew: true });
 
-var socket = io.connect("http://adriandeharo.es:3000", {  });
+var socket = io.connect("http://adriandeharo.es:3001", {  });
 //var socket = io.connect("http://localhost:3000", {  }); 
 //io();
 

@@ -2,14 +2,14 @@ const express = require('express');
 const morgan = require('morgan');
 const exphbs = require('express-handlebars'); //Para usar plantillas
 const path = require('path');               //Para manejar directorios, basicamente unirlos 
-require('dotenv').config()
+
 
 
 //Initialization
 const app = express();
 
 //Settings
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3001);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs.engine({  //con esto se configura el app.engine
   defaultLayout: 'main',
