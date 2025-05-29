@@ -187,7 +187,7 @@
       });
       socket.on('connect', () => {
         console.log(socket.id);
-        document.getElementById("socketid").innerHTML= socket.id;
+        document.getElementById("socketid").innerHTML = socket.id;
       });
 
     },
@@ -235,7 +235,7 @@
             //La meto en las bolas sacadas
             this.bolasSacadas.push(ultimaBola);
 
-            socket.emit('bolas', {'bolas': this.bolasSacadas, 'lineaCantada':this.lineaCantada,'bingoCantado': this.bingoCantado });
+            socket.emit('bolas', { 'bolas': this.bolasSacadas, 'lineaCantada': this.lineaCantada, 'bingoCantado': this.bingoCantado });
 
 
             //La pinto en el panel de bolas
@@ -262,7 +262,7 @@
             }
           } else {
             console.log("Bingo finalizado");
-            this.gameState=3;
+            this.gameState = 3;
             this.pausar();
             await this.decir("Imposible que nadie haya cantado bingo. Menuda panda de subnormales", "Spanish Female");
           }

@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const exphbs = require('express-handlebars'); //Para usar plantillas
 const path = require('path');               //Para manejar directorios, basicamente unirlos 
+const cors = require('cors');
 
 
 
@@ -9,6 +10,7 @@ const path = require('path');               //Para manejar directorios, basicame
 const app = express();
 
 //Settings
+app.use(cors());
 app.set('port', process.env.PORT || 3001);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs.engine({  //con esto se configura el app.engine
@@ -47,7 +49,15 @@ var server = app.listen(app.get('port'), () => {
 
 //sockets.io
 const SocketIO = require("socket.io");
-const io = SocketIO(server);
+
+// Configure Socket.IO with secure options
+const io = SocketIO(server, {
+  cors: {
+    origin: "*", // or specify your specific domain
+    methods: ["GET", "POST"]
+  },
+  secure: true
+});
 
 const cartones = [[[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]],
 //1

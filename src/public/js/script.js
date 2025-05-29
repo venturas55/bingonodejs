@@ -1,7 +1,9 @@
 //var socket = io.connect("http://localhost:4000", { forceNew: true });
-
-var socket = io.connect("http://adriandeharo.es:3001", {  });
-//var socket = io.connect("http://localhost:3000", {  }); 
+// Instead of:
+//var socket = io.connect("http://bingo.adriandeharo.es", {  });
+// Use:
+const socket = io.connect(window.location.origin, { secure: true });
+//var socket = io.connect("http://localhost:3001", {  }); 
 //io();
 
 /*  function render(data) {
