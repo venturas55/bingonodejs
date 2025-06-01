@@ -29,6 +29,14 @@
                 console.log(socket.id);
                 document.getElementById("socketid").innerHTML= socket.id;
                 this.pido();
+
+                // Add click handler for numbers
+                carton.addEventListener('click', (e) => {
+                    const target = e.target.closest('.numeroNoimagen');
+                    if (target && !target.classList.contains('vacio')) {
+                        target.classList.toggle('tachado');
+                    }
+                });
             });
 
             socket.on("bola2", data => {
@@ -56,15 +64,18 @@
                 }
                 console.log("referencia: " + this.carton.referencia);
                 console.log(this.carton.numeros);
-                var txt = "<div class='cabeceraCarton'> Carton nº: " + this.carton.referencia + "</div>";
+                var txt = "<div class='cabecera'> Carton nº: " + this.carton.referencia + "</div>";
+                txt+="<div class='numeros'>";
+                
                 for (var i = 0; i < 3; i++) {
                     txt += this.carton.numeros[i].map(item => {
                         if (item != 0)
-                            return "<div class='n" + item + "'>" + item + "</div>";
+                            return "<div class='numero numeroNoimagen n" + item + "' >" + item + "</div>";
                         else
-                            return "<div>  <img src='/img/loto_icon.svg' alt=''> </div>";
+                            return "<div class='numero'>  <img src='/img/loto_icon.svg' alt=''> </div>";
                     }).join('');
                 }
+                txt+="</div>";
                 carton.innerHTML = txt;
             });
 

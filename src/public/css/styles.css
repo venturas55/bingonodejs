@@ -2,20 +2,25 @@ body {
     background: #bec2be;
     font-family: sans-serif;
 }
+.contenedor{
+    width: 100%;
+    margin: 0px;
+    margin-top: 1em;
+}
 
 /* VARIABLES */
 
 :root {
     --main-bg-color: transparent;
     --main-color: rgb(31, 22, 22);
-    --app-bg: rgba(94, 84, 185, 0.425);
-    --botton-bg: rgb(118, 148, 204);
+    --app-bg: rgba(26, 25, 41, 0.425);
+    --botton-bg: rgb(115, 149, 210);
     --botton-hover: rgb(132, 202, 171);
     --botton-color: white;
-    --ficha-bg-front: rgb(162, 184, 216);
-    --ficha-bg-back: rgb(165, 231, 185);
+    --ficha-bg-front: rgb(219, 222, 226);
+    --ficha-bg-back: rgb(71, 81, 99);
     --bar-bg: rgb(44, 40, 40);
-    --bar-color: rgb(203, 202, 238);
+    --bar-color: rgb(40, 39, 57);
 }
 
 
@@ -148,9 +153,8 @@ body::after {
     padding: 4px;
     border: 1px solid black;
     border-radius: 20px;
-    display: grid;
-    grid-template: 40px repeat(3, minmax(100px, 1fr))/repeat(8, 1fr);
-    grid-gap: 2px;
+    display: flex;
+    flex-flow: column wrap;
     /*     align-items: center;
     justify-items: center;
     justify-content: center; */
@@ -166,17 +170,117 @@ body::after {
     justify-content: center;
     align-items: center;
 }
-#carton div.cabeceraCarton{
+
+#carton div.cabecera{
     grid-column-start: 1;
     grid-column-end: end;
-    background-color: rgb(250, 202, 140);
+    background-color: rgb(228, 224, 220);
     border-radius: 20px;
 }
 
-#carton div img {
-    height: 80%;
-    margin: auto;
+#carton {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: var(--app-bg);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#carton div.numeros {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 2px;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+}
+
+#carton div.numero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--main-color);
+    border-radius: 5px;
+    background: var(--ficha-bg-front);
+    color: var(--main-color);
+    font-weight: bold;
+    font-size: 1.2em;
+    aspect-ratio: 1;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+#carton div.numero:hover:not(.tachado) {
+    transform: scale(1.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#carton div.numero img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
     display: block;
+}
+
+#carton div.numero.tachado {
+    background: var(--ficha-bg-back);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#carton div.numero.tachado::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        45deg,
+        transparent 0%,
+        transparent 45%,
+        rgba(255, 255, 255, 0.8) 45%,
+        rgba(255, 255, 255, 0.8) 55%,
+        transparent 55%
+    );
+}
+
+@media (max-width: 768px) {
+    #carton {
+        padding: 10px;
+    }
+    
+    #carton div.numero {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    #carton {
+        padding: 5px;
+    }
+    
+    #carton div.numero {
+        font-size: 0.9em;
+    }
+}
+
+.numero:hover:not(.tachado) {
+    transform: scale(1.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.numero.tachado {
+    background: var(--ficha-bg-back);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .tachado {
